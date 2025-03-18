@@ -1,4 +1,4 @@
-package com.example.mvvmregistration.screens
+package com.example.mvvmregistration.uiLayer.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.mvvmregistration.Screen
+import com.example.mvvmregistration.navigation.Screen
 import com.example.mvvmregistration.viewmodel.SignInViewModel
 
 

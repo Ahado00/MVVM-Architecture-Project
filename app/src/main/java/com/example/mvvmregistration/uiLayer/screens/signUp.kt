@@ -1,11 +1,8 @@
-package com.example.mvvmregistration.screens
+package com.example.mvvmregistration.uiLayer.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -14,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.mvvmregistration.Screen
+import com.example.mvvmregistration.navigation.Screen
 import com.example.mvvmregistration.viewmodel.SignUpViewModel
 
 @Composable
