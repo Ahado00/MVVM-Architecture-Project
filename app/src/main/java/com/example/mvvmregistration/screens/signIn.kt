@@ -3,23 +3,26 @@ package com.example.mvvmregistration.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mvvmregistration.Screen
+import com.example.mvvmregistration.viewmodel.SignInViewModel
 
 
 @Composable
 fun signInScreen(navController: NavController){
 
-    var email by remember { mutableStateOf("")}
-    var password by remember { mutableStateOf("")}
+    val viewModel: SignInViewModel = viewModel()
+
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     Column(
         modifier = Modifier
@@ -30,33 +33,35 @@ fun signInScreen(navController: NavController){
 
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange =  { viewModel.onEmailChanged(it) },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { viewModel.onPasswordChanged(it)},
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
 
+        if (errorMessage.isNotEmpty()) {
+            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+        }
+
         Button(
-            onClick = { /* Handle Sign-In Logic */ },
+            onClick = { /*if (viewModel.validateInputs()) : Proceed to next screen */ },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Sign In")
         }
 
         TextButton(
-            onClick = { navController.navigate(Screen.SignIn.route) },
+            onClick = { navController.navigate(Screen.SignUp.route) },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Don't have an account? Sign Up")
         }
     }
-
-
 }

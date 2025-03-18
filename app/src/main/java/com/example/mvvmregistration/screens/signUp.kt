@@ -9,17 +9,24 @@ import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mvvmregistration.Screen
+import com.example.mvvmregistration.viewmodel.SignUpViewModel
 
 @Composable
-fun signUpScreen(navController: NavController){
-    var name by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var confirmPassword by remember { mutableStateOf("") }
+fun signUpScreen(navController: NavController) {
+
+    val viewModel: SignUpViewModel = viewModel()
+
+    val name by viewModel.name.collectAsState()
+    val email by viewModel.email.collectAsState()
+    val password by viewModel.password.collectAsState()
+    val confirmPassword by viewModel.confirmPassword.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     Column(
         modifier = Modifier
@@ -30,21 +37,21 @@ fun signUpScreen(navController: NavController){
 
         OutlinedTextField(
             value = name,
-            onValueChange = { name = it },
+            onValueChange = { viewModel.onNameChanged(it) },
             label = { Text("Name") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = { viewModel.onEmailChanged(it) },
             label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { viewModel.onPasswordChanged(it) },
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
@@ -52,14 +59,23 @@ fun signUpScreen(navController: NavController){
 
         OutlinedTextField(
             value = confirmPassword,
-            onValueChange = { confirmPassword = it },
+            onValueChange = { viewModel.onConfirmPasswordChanged(it) },
             label = { Text("Confirm Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth()
         )
 
+
+        if (errorMessage.isNotEmpty()) {
+            Text(text = errorMessage, color = MaterialTheme.colorScheme.error)
+        }
+
         Button(
-            onClick = { /* Handle Sign-Up Logic */ },
+            onClick = { /* if (viewModel.validateInputs()) {
+                    // Navigate to next screen if inputs are valid
+                    navController.navigate(Screen.Home.route)
+                } */ },
+
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Sign Up")
